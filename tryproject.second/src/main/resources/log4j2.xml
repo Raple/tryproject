@@ -22,7 +22,6 @@
             </Policies>
             <DefaultRolloverStrategy max="20"/>
         </RollingRandomAccessFile>
-
         <RollingRandomAccessFile name="service-log" fileName="${LOG_HOME}/service/service.log"
                                  filePattern="${LOG_HOME}/service/$${date:yyyy-MM}/service-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n"/>
@@ -32,7 +31,6 @@
             </Policies>
             <DefaultRolloverStrategy max="20"/>
         </RollingRandomAccessFile>
-
         <RollingRandomAccessFile name="aopcontroller-log" fileName="${LOG_HOME}/aopcontroller/aopcontroller.log"
                                  filePattern="${LOG_HOME}/aopcontroller/$${date:yyyy-MM}/aopcontroller-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n"/>
@@ -60,6 +58,15 @@
             </Policies>
             <DefaultRolloverStrategy max="20"/>
         </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="interception-log" fileName="${LOG_HOME}/interception/interception.log"
+                                 filePattern="${LOG_HOME}/interception/$${date:yyyy-MM}/interception-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
     </Appenders>
 
     <Loggers>
@@ -78,6 +85,10 @@
         <Logger name="com.lyp.easy.trys.core.aop.dao" level="trace" additivity="true">
             <AppenderRef ref="aopdao-log"/>
         </Logger>
+        <Logger name="com.lyp.easy.trys.core.interception" level="trace" additivity="true">
+            <AppenderRef ref="interception-log"/>
+        </Logger>
+
 
         <Root level="debug">
             <AppenderRef ref="Console"/>

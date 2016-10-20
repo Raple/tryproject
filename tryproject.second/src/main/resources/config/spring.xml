@@ -16,6 +16,12 @@
     <!--激活自动代理功能-->
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
+    <!--拦截器配置-->
+    <mvc:interceptors>
+        <bean class="com.lyp.easy.trys.core.interception.UrlFilterInterceptor"/>
+        <bean class="org.springframework.web.servlet.mvc.WebContentInterceptor"/>
+    </mvc:interceptors>
+
     <!-- 记载系统属性 -->
     <bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="fileEncoding" value="UTF-8"/>
