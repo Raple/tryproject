@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AccountServiceImpl implements AccountService{
-    private static Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class.getPackage().toString());
+    private static Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class.getPackage().getName());
 
     @Autowired
     private AccountDao accountDao;
@@ -21,8 +21,8 @@ public class AccountServiceImpl implements AccountService{
     @Override
    public Account selectByPrimaryKey(int id)
     {
-        logger.error("根据餐厅id获取账户信息");
         Account account=accountDao.selectByPrimaryKey(id);
+        logger.info("service:",account);
         return account;
     }
 }

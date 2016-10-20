@@ -23,6 +23,7 @@ import java.util.Arrays;
 public class LogAop {
     private static Logger loggerController = LoggerFactory.getLogger("com.lyp.easy.trys.core.aop.controller");
     private static Logger loggerService = LoggerFactory.getLogger("com.lyp.easy.trys.core.aop.service");
+    private static Logger loggerDao = LoggerFactory.getLogger("com.lyp.easy.trys.core.aop.dao");
 
     /**
      * 配置切入点,该方法无方法体,主要为方便同类中其他方法使用此处配置的切入点
@@ -39,11 +40,11 @@ public class LogAop {
 
     ;
 
-//    @Pointcut("bean(*Dao)")
-//    public void expressionDaoLog() {
-//    }
-//
-//    ;
+    @Pointcut("bean(*Dao)")
+    public void expressionDaoLog() {
+    }
+
+    ;
 
     /**
      * 配置前置通知
@@ -70,37 +71,63 @@ public class LogAop {
         }
     }
 
+    @Before("expressionDaoLog()")
+    public void beforeDao(JoinPoint joinPoint) {
+        try {
+            if (loggerService.isInfoEnabled()) {
+                loggerDao.info(String.format("Class:%s Params:%s", joinPoint.getSignature(), getArgs(joinPoint)));
+            }
+        } catch (Exception e) {
+        }
+    }
+
     /**
      * 配置后置返回通知
      *
      * @param joinPoint
      */
     @AfterReturning(value = "expressionControllerLog()", returning = "result")
-    public void afterController(JoinPoint joinPoint, Object result) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String Json =  mapper.writeValueAsString(result);
-
+    public void afterController(JoinPoint joinPoint, Object result) {
         try {
             if (loggerController.isInfoEnabled()) {
-                loggerController.debug(String.format("Class:%s Return:%s", joinPoint.getSignature(), Json));
+                loggerController.debug(String.format("Class:%s Return:%s", joinPoint.getSignature(), getJson(result)));
             }
         } catch (Exception e) {
         }
     }
 
     @AfterReturning(value = "expressionServiceLog()", returning = "result")
-    public void afterService(JoinPoint joinPoint, Object result) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String Json =  mapper.writeValueAsString(result);
+    public void afterService(JoinPoint joinPoint, Object result){
         try {
             if (loggerService.isInfoEnabled()) {
-                loggerService.debug(String.format("Class:%s Return:%s", joinPoint.getSignature(), Json));
+                loggerService.debug(String.format("Class:%s Return:%s", joinPoint.getSignature(), getJson(result)));
             }
         } catch (Exception e) {
         }
     }
 
+    @AfterReturning(value = "expressionDaoLog()", returning = "result")
+    public void afterDao(JoinPoint joinPoint, Object result){
+        try {
+            if (loggerService.isInfoEnabled()) {
+                loggerDao.debug(String.format("Class:%s Return:%s", joinPoint.getSignature(), getJson(result)));
+            }
+        } catch (Exception e) {
+            String message=e.toString();
+        }
+    }
+
     private String getArgs(JoinPoint joinPoint) {
         return Arrays.toString(joinPoint.getArgs());
+    }
+    private String getJson (Object req)throws JsonProcessingException
+    {
+        String result="";
+        if(req!=null)
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            result = mapper.writeValueAsString(req);
+        }
+        return result;
     }
 }

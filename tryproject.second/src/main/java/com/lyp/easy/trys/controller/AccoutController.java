@@ -1,5 +1,6 @@
 package com.lyp.easy.trys.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lyp.easy.trys.entity.Account;
 import com.lyp.easy.trys.service.AccountService;
 import io.swagger.annotations.Api;
@@ -20,10 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value="/account")
 @Api(tags = "AccoutAPI",description = "帐号相关接口")
 public class AccoutController extends BaseController {
+    private static Logger logger = LoggerFactory.getLogger(AccoutController.class.getPackage().getName());
+
     @Autowired
     AccountService accountService;
-
-    private static Logger logger = LoggerFactory.getLogger("com.lyp.easy.trys.controller");
 
     /**
      * 根据ID获取信息
@@ -34,10 +35,10 @@ public class AccoutController extends BaseController {
     @RequestMapping(value="/select",method= RequestMethod.GET)
     public Account selectByPrimaryKey(@RequestParam(value="id") int id)
     {
-        AccoutController.class.getPackage().toString();
-        logger.error("controller:");
         Account account=accountService.selectByPrimaryKey(id);
+        logger.info("controller:",account);
         return account;
+
     }
 
 }
