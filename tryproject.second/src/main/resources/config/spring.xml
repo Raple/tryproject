@@ -18,8 +18,9 @@
 
     <!--拦截器配置-->
     <mvc:interceptors>
+        <!--可以配置多个拦截器-->
         <bean class="com.lyp.easy.trys.core.interception.UrlFilterInterceptor"/>
-        <bean class="org.springframework.web.servlet.mvc.WebContentInterceptor"/>
+        <!--<bean class="org.springframework.web.servlet.mvc.WebContentInterceptor"/>-->
     </mvc:interceptors>
 
     <!-- 记载系统属性 -->
