@@ -1,5 +1,8 @@
 package com.lyp.easy.trys.entity;
 
+import com.lyp.easy.trys.annotation.EnjoyMoney;
+import com.lyp.easy.trys.annotation.ReName;
+
 /**
  * Created by lyp on 2016/10/8.
  */
@@ -7,8 +10,10 @@ public class Account
 {
     private Integer id;
 
+    @ReName
     private String name;
 
+    @EnjoyMoney(enjoyCount= EnjoyMoney.Number.THREE)
     private Double money;
 
     public Integer getId() {

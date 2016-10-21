@@ -21,6 +21,7 @@ public class AccountServiceImpl implements AccountService{
     @Override
    public Account selectByPrimaryKey(int id)
     {
+
         Account account=accountDao.selectByPrimaryKey(id);
         logger.info("service:",account);
         return account;
